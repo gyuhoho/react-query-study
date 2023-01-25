@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { getResizeHandleStyle } from '@tanstack/react-query-devtools/build/lib/utils';
 
 import type { Treatment } from '../../../../../shared/types';
 import { axiosInstance } from '../../../axiosInstance';
