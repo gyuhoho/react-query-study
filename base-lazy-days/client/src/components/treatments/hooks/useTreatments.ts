@@ -26,6 +26,5 @@ export function usePrefetchTreatments(): void {
   queryClient.prefetchQuery({
     queryKey: [queryKeys.treatments],
     queryFn: getTreatments,
-    staleTime: 5 * 1000 * 60,
   });
 }

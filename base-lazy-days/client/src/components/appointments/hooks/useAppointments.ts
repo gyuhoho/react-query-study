@@ -75,6 +75,10 @@ export function useAppointments(): UseAppointments {
   /** ****************** END 2: filter appointments  ******************** */
   /** ****************** START 3: useQuery  ***************************** */
   // useQuery call for appointments for the current monthYear
+  const commonOption = {
+    staleTime: 0,
+    cacheTime: 0,
+  };
 
   const queryClient = useQueryClient();
   useEffect(() => {
@@ -86,8 +90,9 @@ export function useAppointments(): UseAppointments {
         nextMonthYear.month,
       ],
       queryFn: () => getAppointments(nextMonthYear.year, nextMonthYear.month),
+      commonOption,
     });
-  }, [queryClient, monthYear]);
+  }, [queryClient, monthYear, commonOption]);
   // Notes:
   //    1. appointments is an AppointmentDateMap (object with days of month
   //       as properties, and arrays of appointments for that day as values)
@@ -101,6 +106,11 @@ export function useAppointments(): UseAppointments {
     queryFn: () => getAppointments(monthYear.year, monthYear.month),
     keepPreviousData: true,
     select: showAll ? undefined : selectFn,
+    ...commonOption,
+    refetchOnMount: true,
+    refetchOnReconnect: true,
+    refetchOnWindowFocus: true,
+    refetchInterval: 1000 * 60, // every second; not recommended for production
   });
   /** ****************** END 3: useQuery  ******************************* */
 
