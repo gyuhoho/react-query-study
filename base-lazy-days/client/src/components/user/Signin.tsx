@@ -10,11 +10,17 @@ import {
   Input,
   Stack,
 } from '@chakra-ui/react';
-import { ReactElement, useState } from 'react';
+import { ReactElement, useState, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import { useAuth } from '../../auth/useAuth';
 import { useUser } from './hooks/useUser';
+import {
+  clearStoredUser,
+  getStoredUser,
+  setStoredUser,
+} from '../../user-storage';
+import type { User } from '../../../../shared/types';
 
 // eslint-disable-next-line max-lines-per-function
 export function Signin(): ReactElement {
