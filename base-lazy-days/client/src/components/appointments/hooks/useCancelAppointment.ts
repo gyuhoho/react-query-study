@@ -1,5 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { applyOperation } from 'fast-json-patch';
+import {
+  UseMutateFunction,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import { Appointment } from '../../../../../shared/types';
 import { axiosInstance } from '../../../axiosInstance';
@@ -15,19 +18,23 @@ async function removeAppointmentUser(appointment: Appointment): Promise<void> {
 }
 
 // TODO: update return type
-export function useCancelAppointment(): (appointment: Appointment) => void {
+export function useCancelAppointment(): UseMutateFunction<
+  void,
+  unknown,
+  Appointment,
+  unknown
+> {
   const queryClient = useQueryClient();
   const toast = useCustomToast();
   const { mutate } = useMutation({
-    mutationFn: (appointment: Appointment) =>
-      removeAppointmentUser(appointment),
+    mutationFn: removeAppointmentUser,
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: [queryKeys.appointments],
       });
       toast({
-        title: 'you have canceld reservation',
-        status: 'success',
+        title: 'you have canceled the reservation',
+        status: 'warning',
       });
     },
   });
