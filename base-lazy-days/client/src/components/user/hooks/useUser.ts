@@ -12,7 +12,10 @@ import {
 
 import { useEffect } from 'react';
 
-async function getUser(user: User | null): Promise<User | null> {
+async function getUser(
+  user: User | null,
+  signal: AbortSignal,
+): Promise<User | null> {
   if (!user) return null;
   const { data }: AxiosResponse<{ user: User }> = await axiosInstance.get(
     `/user/${user.id}`,
@@ -33,7 +36,7 @@ export function useUser(): UseUser {
   const queryClient = useQueryClient();
   const { data: user } = useQuery({
     queryKey: [queryKeys.user],
-    queryFn: () => getUser(user),
+    queryFn: ({ signal }) => getUser(user, signal),
     initialData: getStoredUser,
   });
 
